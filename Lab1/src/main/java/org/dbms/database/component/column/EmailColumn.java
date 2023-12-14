@@ -1,0 +1,25 @@
+package org.dbms.database.component.column;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.dbms.database.component.Column;
+
+public class EmailColumn extends Column {
+    // Regular expression for validating email addresses
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+
+    public EmailColumn(String name) {
+        super(name);
+        this.type = ColumnType.EMAIL.name();
+    }
+
+    @Override
+    public boolean validate(String value) {
+        if (value == null) {
+            return false;
+        }
+        Matcher matcher = EMAIL_PATTERN.matcher(value);
+        return matcher.matches();
+    }
+}
